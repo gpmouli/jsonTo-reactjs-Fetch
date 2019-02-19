@@ -1,25 +1,41 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import myalert, { testing1 } from './component';
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state={
+      data: [],
+    }
+    myalert()
+    //testing1()
+  }
+
+
+
+  componentDidMount() {
+    fetch('https://facebook.github.io/react-native/movies.json')
+    .then((response) => response.json())
+    .then((findResponse) => {
+      console.log(findResponse.movies)
+      this.setState({
+        data: findResponse.movies,
+      })
+    });
+  }
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        {
+          this.state.data.map((dynamic, key) => 
+          <ul key={key}>
+            <li>{dynamic.title}</li>
+            <p>{dynamic.releaseYear}</p>
+          </ul>
+          )
+        }
+        {this.testing1()}
       </div>
     );
   }
